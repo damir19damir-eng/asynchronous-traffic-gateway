@@ -1,0 +1,32 @@
+listen:
+  host: "0.0.0.0"
+  port: 8080
+
+tls:
+  enabled: false
+
+health_check:
+  interval: 5
+  timeout: 2
+
+default_pool: "main_pool"
+
+pools:
+  main_pool:
+    algorithm: "weighted_round_robin"
+    backends:
+      - host: "backend1"
+        port: 8000
+        weight: 1
+      - host: "backend2"
+        port: 8000
+        weight: 2
+
+routes:
+  "example.local": "main_pool"
+
+rate_limit:
+  enabled: true
+  redis_url: "redis://redis:6379/0"
+  capacity: 100
+  refill_per_second: 10
